@@ -1,0 +1,26 @@
+spec:
+  container:
+  - name: vllm
+    image: "ahsorg-ahsprod.registry.snowflakecomputing.com/db_team_jenkins/kl_test_jenkins/kl_tutorial_repository/mistral_vllm"
+    volumeMounts:
+      - name: stage
+        mountPath: /workspace/stage
+    env:
+      LLM_MODEL_PATH: /workspace/stage/mistralai/Mistral-7B-Instruct-v0.2
+    resources:
+      requests:
+        nvidia.com/gpu: 1
+      limits:
+        nvidia.com/gpu: 1
+  volume:
+  - name: stage
+    source: "@MODELS"
+    uid: 1000
+    gid: 1000
+  endpoint:
+  - name: mistral
+    port: 8000
+    public: true
+  - name: jupyter # For jupyter only - remove only validated
+    port: 8888
+    public: true
